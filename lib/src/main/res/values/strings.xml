@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ImageMore</string>
+    <string name="additional_item_count" translatable="false">+%1$d</string>
+</resources>
