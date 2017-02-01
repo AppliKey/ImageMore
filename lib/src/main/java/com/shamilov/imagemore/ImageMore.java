@@ -66,6 +66,7 @@ public class ImageMore extends LinearLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         final int width = MeasureSpec.getSize(widthMeasureSpec);
         mItemWidth = MeasureSpec.getSize(heightMeasureSpec);
         mItemHeight = mItemWidth;
@@ -75,7 +76,6 @@ public class ImageMore extends LinearLayout {
         final int additionalMargin = freeSpace / viewCount;
         mActualMargin = mMinMargin + additionalMargin;
         mMaxViewCount = viewCount;
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     private void initAvatarViews(int mMaxViewCount) {
