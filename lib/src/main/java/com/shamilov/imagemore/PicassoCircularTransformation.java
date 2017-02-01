@@ -1,4 +1,4 @@
-package com.shamilov;
+package com.shamilov.imagemore;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

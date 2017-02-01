@@ -8,9 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="CustomTextApperance" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">#FFEB3B</item>
-        <item name="android:textSize">23sp</item>
+    <style name="CustomTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">#000</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

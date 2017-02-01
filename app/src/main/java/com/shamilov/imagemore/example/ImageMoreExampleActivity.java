@@ -10,6 +10,7 @@ import com.shamilov.imagemore.ImageMore;
 public class ImageMoreExampleActivity extends AppCompatActivity {
 
     ImageMore imageMore;
+
     Button add;
     int index;
 

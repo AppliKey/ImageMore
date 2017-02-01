@@ -1,9 +1,8 @@
-package com.shamilov;
+package com.shamilov.imagemore;
 
 import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.FrameLayout;
@@ -11,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.shamilov.imagemore.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -28,6 +26,8 @@ public class ImageMore extends LinearLayout {
     private ImageView[] mUserAvatars;
     private final List<String> items = new ArrayList<>();
     private PicassoCircularTransformation circularTransformation;
+    private int mCounterTextApperiance;
+
 
     public ImageMore(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -56,6 +56,7 @@ public class ImageMore extends LinearLayout {
     private void parseAttributes(Context context, AttributeSet attrs) {
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ImageMore);
         mMinMargin = typedArray.getDimensionPixelSize(R.styleable.ImageMore_minItemMargin, 0);
+        mCounterTextApperiance = typedArray.getResourceId(R.styleable.ImageMore_counterTextAppearance, R.style.DefaultCounterTextAppearance);
         typedArray.recycle();
 
     }
@@ -71,10 +72,6 @@ public class ImageMore extends LinearLayout {
         final int additionalMargin = freeSpace / viewCount;
         mActualMargin = mMinMargin + additionalMargin;
         mMaxViewCount = viewCount;
-        if (mUserAvatars == null) {
-            initAvatarViews(mMaxViewCount);
-            setVisibility(GONE);
-        }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -102,12 +99,10 @@ public class ImageMore extends LinearLayout {
     private TextView initCounter() {
         final TextView textView = new TextView(getContext());
         final LinearLayout.LayoutParams layoutParams = new LayoutParams(mItemWidth, mItemHeight);
-        textView.setTextColor(ContextCompat.getColor(getContext(), android.R.color.white));
-//        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimension(R.dimen.added_people_count_textsize));
+        textView.setTextAppearance(getContext(), mCounterTextApperiance);
         textView.setLayoutParams(layoutParams);
         textView.setGravity(Gravity.CENTER);
         textView.setVisibility(GONE);
-//        textView.setBackgroundResource(R.drawable.bg_added_people_count);
         return textView;
     }
 
@@ -157,7 +152,7 @@ public class ImageMore extends LinearLayout {
     }
 
     private void displayUserAvatarsInActivatedViews(List<String> items, int activatedViewsCount) {
-        for (int i = 0; i < items.size(); i++) {
+        for (int i = 0; i < activatedViewsCount; i++) {
             final ImageView imageView = mUserAvatars[i];
             imageView.setVisibility(VISIBLE);
             Picasso.with(getContext())
@@ -212,6 +207,10 @@ public class ImageMore extends LinearLayout {
     }
 
     private void notifyChange() {
+        if (mUserAvatars == null) {
+            initAvatarViews(mMaxViewCount);
+            setVisibility(GONE);
+        }
         setVisible(isNeedToBeShown(items.size()));
         showCounterIfNeeded(isCounterVisible(items.size()), items.size());
         final int activatedViewsCount = getCountOfActivatedViews(items.size());
