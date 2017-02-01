@@ -3,6 +3,7 @@ package com.shamilov.imagemore;
 import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.FrameLayout;
@@ -26,7 +27,9 @@ public class ImageMore extends LinearLayout {
     private ImageView[] mUserAvatars;
     private final List<String> items = new ArrayList<>();
     private PicassoCircularTransformation circularTransformation;
-    private int mCounterTextApperiance;
+
+    @StyleRes
+    private int mCounterTextAppearance;
 
 
     public ImageMore(Context context, AttributeSet attrs) {
@@ -56,7 +59,7 @@ public class ImageMore extends LinearLayout {
     private void parseAttributes(Context context, AttributeSet attrs) {
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ImageMore);
         mMinMargin = typedArray.getDimensionPixelSize(R.styleable.ImageMore_minItemMargin, 0);
-        mCounterTextApperiance = typedArray.getResourceId(R.styleable.ImageMore_counterTextAppearance, R.style.DefaultCounterTextAppearance);
+        mCounterTextAppearance = typedArray.getResourceId(R.styleable.ImageMore_counterTextAppearance, R.style.DefaultCounterTextAppearance);
         typedArray.recycle();
 
     }
@@ -99,7 +102,7 @@ public class ImageMore extends LinearLayout {
     private TextView initCounter() {
         final TextView textView = new TextView(getContext());
         final LinearLayout.LayoutParams layoutParams = new LayoutParams(mItemWidth, mItemHeight);
-        textView.setTextAppearance(getContext(), mCounterTextApperiance);
+        textView.setTextAppearance(getContext(), mCounterTextAppearance);
         textView.setLayoutParams(layoutParams);
         textView.setGravity(Gravity.CENTER);
         textView.setVisibility(GONE);
@@ -193,7 +196,6 @@ public class ImageMore extends LinearLayout {
         return dataSize > mUserAvatars.length;
     }
 
-
     public ImageView getLastUserAvatar() {
         return mUserAvatars[mUserAvatars.length - 1];
     }
@@ -209,7 +211,6 @@ public class ImageMore extends LinearLayout {
     private void notifyChange() {
         if (mUserAvatars == null) {
             initAvatarViews(mMaxViewCount);
-            setVisibility(GONE);
         }
         setVisible(isNeedToBeShown(items.size()));
         showCounterIfNeeded(isCounterVisible(items.size()), items.size());
