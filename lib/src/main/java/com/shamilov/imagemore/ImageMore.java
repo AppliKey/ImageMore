@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,11 +20,19 @@ import java.util.List;
 
 public class ImageMore extends LinearLayout {
 
+    private static final String TAG = "ImageMore";
+
     private int mItemWidth;
     private int mItemHeight;
+
     private int mMinMargin;
     private int mActualMargin;
+
     private int mMaxViewCount;
+
+    private int mMinWidth;
+    private int mMinHeight;
+
     private TextView mCounter;
     private ImageView[] mUserAvatars;
     private final List<String> items = new ArrayList<>();
@@ -61,21 +71,78 @@ public class ImageMore extends LinearLayout {
         mMinMargin = typedArray.getDimensionPixelSize(R.styleable.ImageMore_minItemMargin, 0);
         mCounterTextAppearance = typedArray.getResourceId(R.styleable.ImageMore_counterTextAppearance, R.style.DefaultCounterTextAppearance);
         typedArray.recycle();
-
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        final int width = MeasureSpec.getSize(widthMeasureSpec);
-        mItemWidth = MeasureSpec.getSize(heightMeasureSpec);
-        mItemHeight = mItemWidth;
+        Log.d(TAG, "onMeasure: ");
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+        mMinWidth = getMinimumWidth();
+        mMinHeight = getMinimumHeight();
+
+        int width = getRealViewWidth(widthMode, widthSize);
+        int height = getRealViewHeight(heightMode, heightSize);
+        setMeasuredDimension(width, height);
+
+    }
+
+    private int getRealViewHeight(int heightMode, int heightSize) {
+        int height = 0;
+
+        if (heightMode == MeasureSpec.EXACTLY) {
+            height = heightSize;
+        } else if (heightMode == MeasureSpec.AT_MOST){
+            if (mMinHeight != 0) {
+                height = mMinHeight;
+            } else {
+                height = getResources().getDimensionPixelSize(R.dimen.default_item_height);
+            }
+        } else if (heightMode == MeasureSpec.UNSPECIFIED) {
+            if (mMinWidth != 0) {
+                height = mMinHeight;
+            } else {
+                height = getResources().getDimensionPixelSize(R.dimen.default_item_height);
+            }
+        }
+        return height;
+    }
+
+    private int getRealViewWidth(int widthMode, int widthSize) {
+        int width = 0;
+
+        if (widthMode == MeasureSpec.EXACTLY) {
+            width = widthSize;
+        } else if (widthMode == MeasureSpec.AT_MOST){
+            width = widthSize;
+        } else if (widthMode == MeasureSpec.UNSPECIFIED) {
+            if (mMinWidth != 0) {
+                width = mMinWidth;
+            } else {
+                width = ((ViewGroup) getParent()).getWidth();
+            }
+        }
+        return width;
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        Log.d(TAG, "onLayout: ");
+        final int width = getWidth();
+        mItemWidth = getHeight();
+        mItemHeight = getHeight();
         final int viewCount = (width + mMinMargin) / (mItemWidth + mMinMargin);
         final int viewSpace = (viewCount * (mItemWidth + mMinMargin)) - mMinMargin;
         final int freeSpace = width - viewSpace;
-        final int additionalMargin = freeSpace / viewCount;
-        mActualMargin = mMinMargin + additionalMargin;
+        if (viewCount > 0) {
+            final int additionalMargin = freeSpace / viewCount;
+            mActualMargin = mMinMargin + additionalMargin;
+        }
         mMaxViewCount = viewCount;
+        super.onLayout(changed, l, t, r, b);
     }
 
     private void initAvatarViews(int mMaxViewCount) {
@@ -89,7 +156,6 @@ public class ImageMore extends LinearLayout {
         }
         mCounter = initCounter();
         final ImageView lastAvatar = mUserAvatars[lastAvatarIndex];
-
         final FrameLayout frameLayout = new FrameLayout(getContext());
         frameLayout.setLayoutTransition(new LayoutTransition());
         final LinearLayout.LayoutParams frameLayoutParams = new LayoutParams(mItemWidth, mItemHeight);
@@ -139,10 +205,6 @@ public class ImageMore extends LinearLayout {
 
     }
 
-    private int getDisplayableCounterValue(int totalAddedItems, int maxVisibleItems) {
-        return totalAddedItems - maxVisibleItems + 1;
-    }
-
     public void setItems(final List<String> items) {
         post(new Runnable() {
             @Override
@@ -152,6 +214,10 @@ public class ImageMore extends LinearLayout {
                 notifyChange();
             }
         });
+    }
+
+    private int getDisplayableCounterValue(int totalAddedItems, int maxVisibleItems) {
+        return totalAddedItems - maxVisibleItems + 1;
     }
 
     private void displayUserAvatarsInActivatedViews(List<String> items, int activatedViewsCount) {
@@ -209,6 +275,8 @@ public class ImageMore extends LinearLayout {
     }
 
     private void notifyChange() {
+        if (mMaxViewCount <= 0) return;
+
         if (mUserAvatars == null) {
             initAvatarViews(mMaxViewCount);
         }
