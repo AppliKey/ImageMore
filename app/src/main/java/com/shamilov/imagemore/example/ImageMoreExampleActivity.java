@@ -7,8 +7,6 @@ import android.widget.Button;
 
 import com.shamilov.imagemore.ImageMore;
 
-import java.util.Arrays;
-
 public class ImageMoreExampleActivity extends AppCompatActivity {
 
     ImageMore imageMore;
@@ -43,14 +41,16 @@ public class ImageMoreExampleActivity extends AppCompatActivity {
 
     String[] empty = new String[] {};
 
+    int[] array = new int[]{1,2,7,3,9,3,7,7,3,1,3,9,5,6,7,4,2,4,7,3,5,12,56};
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_example);
         imageMore = (ImageMore) findViewById(R.id.imageMore);
-/*        for (int i = 0; i < images.length; i++) {
+        for (int i = 0; i < images.length; i++) {
             imageMore.addItem(images[i]);
-        }*/
-        imageMore.setItems(Arrays.asList(images));
+        }
+//        imageMore.setItems(Arrays.asList(images));
     }
 }
