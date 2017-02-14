@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class ImageMore extends LinearLayout {
 
     @StyleRes
     private int mCounterTextAppearance;
+    private Drawable mCounterBackground;
 
 
     public ImageMore(Context context, AttributeSet attrs) {
@@ -68,6 +70,7 @@ public class ImageMore extends LinearLayout {
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ImageMore);
         mMinMargin = typedArray.getDimensionPixelSize(R.styleable.ImageMore_minItemMargin, 0);
         mCounterTextAppearance = typedArray.getResourceId(R.styleable.ImageMore_counterTextAppearance, R.style.DefaultCounterTextAppearance);
+        mCounterBackground = typedArray.getDrawable(R.styleable.ImageMore_counterBackground);
         typedArray.recycle();
     }
 
@@ -161,6 +164,7 @@ public class ImageMore extends LinearLayout {
         final TextView textView = new TextView(getContext());
         final LinearLayout.LayoutParams layoutParams = new LayoutParams(mItemWidth, mItemHeight);
         textView.setTextAppearance(getContext(), mCounterTextAppearance);
+        textView.setBackground(mCounterBackground);
         textView.setLayoutParams(layoutParams);
         textView.setGravity(Gravity.CENTER);
         textView.setVisibility(GONE);
