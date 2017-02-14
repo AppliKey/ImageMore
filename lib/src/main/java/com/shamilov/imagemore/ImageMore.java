@@ -88,6 +88,17 @@ public class ImageMore extends LinearLayout {
         int height = getRealViewHeight(heightMode, heightSize);
         setMeasuredDimension(width, height);
 
+        mItemWidth = getMeasuredHeight();
+        mItemHeight = getMeasuredHeight();
+        final int viewCount = (width + mMinMargin) / (mItemWidth + mMinMargin);
+        final int viewSpace = (viewCount * (mItemWidth + mMinMargin)) - mMinMargin;
+        final int freeSpace = width - viewSpace;
+        if (viewCount > 0) {
+            final int additionalMargin = freeSpace / viewCount;
+            mActualMargin = mMinMargin + additionalMargin;
+        }
+        mMaxViewCount = viewCount;
+
     }
 
     private int getRealViewHeight(int heightMode, int heightSize) {
@@ -126,23 +137,6 @@ public class ImageMore extends LinearLayout {
             }
         }
         return width;
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        Log.d(TAG, "onLayout: ");
-        final int width = getWidth();
-        mItemWidth = getHeight();
-        mItemHeight = getHeight();
-        final int viewCount = (width + mMinMargin) / (mItemWidth + mMinMargin);
-        final int viewSpace = (viewCount * (mItemWidth + mMinMargin)) - mMinMargin;
-        final int freeSpace = width - viewSpace;
-        if (viewCount > 0) {
-            final int additionalMargin = freeSpace / viewCount;
-            mActualMargin = mMinMargin + additionalMargin;
-        }
-        mMaxViewCount = viewCount;
-        super.onLayout(changed, l, t, r, b);
     }
 
     private void initAvatarViews(int mMaxViewCount) {
