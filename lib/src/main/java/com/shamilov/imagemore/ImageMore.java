@@ -3,6 +3,8 @@ package com.shamilov.imagemore;
 import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -12,8 +14,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +35,7 @@ public class ImageMore extends LinearLayout {
 
     private TextView mCounter;
     private ImageView[] mUserAvatars;
-    private final List<String> items = new ArrayList<>();
-    private PicassoCircularTransformation circularTransformation;
+    private final List<Bitmap> items = new ArrayList<>();
 
     @StyleRes
     private int mCounterTextAppearance;
@@ -62,7 +61,6 @@ public class ImageMore extends LinearLayout {
         setLayoutTransition(new LayoutTransition());
         setVisibility(VISIBLE);
         parseAttributes(context, attrs);
-        circularTransformation = new PicassoCircularTransformation();
 
     }
 
@@ -87,6 +85,17 @@ public class ImageMore extends LinearLayout {
         int width = getRealViewWidth(widthMode, widthSize);
         int height = getRealViewHeight(heightMode, heightSize);
         setMeasuredDimension(width, height);
+
+        mItemWidth = getMeasuredHeight();
+        mItemHeight = getMeasuredHeight();
+        final int viewCount = (width + mMinMargin) / (mItemWidth + mMinMargin);
+        final int viewSpace = (viewCount * (mItemWidth + mMinMargin)) - mMinMargin;
+        final int freeSpace = width - viewSpace;
+        if (viewCount > 0) {
+            final int additionalMargin = freeSpace / viewCount;
+            mActualMargin = mMinMargin + additionalMargin;
+        }
+        mMaxViewCount = viewCount;
 
     }
 
@@ -128,23 +137,6 @@ public class ImageMore extends LinearLayout {
         return width;
     }
 
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        Log.d(TAG, "onLayout: ");
-        final int width = getWidth();
-        mItemWidth = getHeight();
-        mItemHeight = getHeight();
-        final int viewCount = (width + mMinMargin) / (mItemWidth + mMinMargin);
-        final int viewSpace = (viewCount * (mItemWidth + mMinMargin)) - mMinMargin;
-        final int freeSpace = width - viewSpace;
-        if (viewCount > 0) {
-            final int additionalMargin = freeSpace / viewCount;
-            mActualMargin = mMinMargin + additionalMargin;
-        }
-        mMaxViewCount = viewCount;
-        super.onLayout(changed, l, t, r, b);
-    }
-
     private void initAvatarViews(int mMaxViewCount) {
         mUserAvatars = new ImageView[mMaxViewCount];
         final int lastAvatarIndex = mMaxViewCount - 1;
@@ -183,7 +175,7 @@ public class ImageMore extends LinearLayout {
         return userAvatar;
     }
 
-    public void addItem(final String item) {
+    public void addItem(final Bitmap item) {
         post(new Runnable() {
             @Override
             public void run() {
@@ -191,10 +183,9 @@ public class ImageMore extends LinearLayout {
                 notifyChange();
             }
         });
-
     }
 
-    public void removeItem(final String item) {
+    public void removeItem(final Bitmap item) {
         post(new Runnable() {
             @Override
             public void run() {
@@ -205,7 +196,7 @@ public class ImageMore extends LinearLayout {
 
     }
 
-    public void setItems(final List<String> items) {
+    public void setItems(final List<Bitmap> items) {
         post(new Runnable() {
             @Override
             public void run() {
@@ -220,14 +211,11 @@ public class ImageMore extends LinearLayout {
         return totalAddedItems - maxVisibleItems + 1;
     }
 
-    private void displayUserAvatarsInActivatedViews(List<String> items, int activatedViewsCount) {
+    private void displayUserAvatarsInActivatedViews(List<Bitmap> items, int activatedViewsCount) {
         for (int i = 0; i < activatedViewsCount; i++) {
             final ImageView imageView = mUserAvatars[i];
             imageView.setVisibility(VISIBLE);
-            Picasso.with(getContext())
-                    .load(items.get(i))
-                    .transform(circularTransformation)
-                    .into(imageView);
+            imageView.setImageDrawable(new BitmapDrawable(getResources(), items.get(i)));
         }
     }
 
