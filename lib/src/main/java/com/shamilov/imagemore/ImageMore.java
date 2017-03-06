@@ -3,6 +3,7 @@ package com.shamilov.imagemore;
 import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -37,6 +38,7 @@ public class ImageMore extends LinearLayout {
     private ImageView[] mUserAvatars;
     private final List<String> items = new ArrayList<>();
     private PicassoCircularTransformation circularTransformation;
+    private Drawable mCounterDrawable;
 
     @StyleRes
     private int mCounterTextAppearance;
@@ -70,6 +72,7 @@ public class ImageMore extends LinearLayout {
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ImageMore);
         mMinMargin = typedArray.getDimensionPixelSize(R.styleable.ImageMore_minItemMargin, 0);
         mCounterTextAppearance = typedArray.getResourceId(R.styleable.ImageMore_counterTextAppearance, R.style.DefaultCounterTextAppearance);
+        mCounterDrawable = typedArray.getDrawable(R.styleable.ImageMore_counterBackground);
         typedArray.recycle();
     }
 
@@ -164,6 +167,7 @@ public class ImageMore extends LinearLayout {
         final LinearLayout.LayoutParams layoutParams = new LayoutParams(mItemWidth, mItemHeight);
         textView.setTextAppearance(getContext(), mCounterTextAppearance);
         textView.setLayoutParams(layoutParams);
+        textView.setBackground(mCounterDrawable);
         textView.setGravity(Gravity.CENTER);
         textView.setVisibility(GONE);
         return textView;
