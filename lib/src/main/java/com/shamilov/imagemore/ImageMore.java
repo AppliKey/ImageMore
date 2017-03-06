@@ -264,10 +264,6 @@ public class ImageMore extends LinearLayout {
         return mUserAvatars[mUserAvatars.length - 1];
     }
 
-    private void setVisible(boolean isActive) {
-        this.setVisibility(isActive ? VISIBLE : GONE);
-    }
-
     private boolean isNeedToBeShown(int dataSize) {
         return dataSize != 0;
     }
@@ -278,7 +274,6 @@ public class ImageMore extends LinearLayout {
         if (mUserAvatars == null) {
             initAvatarViews(mMaxViewCount);
         }
-        setVisible(isNeedToBeShown(items.size()));
         showCounterIfNeeded(isCounterVisible(items.size()), items.size());
         final int activatedViewsCount = getCountOfActivatedViews(items.size());
         displayUserAvatarsInActivatedViews(items, activatedViewsCount);
