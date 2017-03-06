@@ -4,6 +4,7 @@ import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -15,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +42,7 @@ public class ImageMore extends LinearLayout {
     private final List<String> items = new ArrayList<>();
     private PicassoCircularTransformation circularTransformation;
     private Drawable mCounterDrawable;
+    private OnApplyTransformationCallback mOnApplyTransformationCallback;
 
     @StyleRes
     private int mCounterTextAppearance;
@@ -104,81 +108,8 @@ public class ImageMore extends LinearLayout {
 
     }
 
-    private int getRealViewHeight(int heightMode, int heightSize) {
-        int height = 0;
-
-        if (heightMode == MeasureSpec.EXACTLY) {
-            height = heightSize;
-        } else if (heightMode == MeasureSpec.AT_MOST){
-            if (mMinHeight != 0) {
-                height = mMinHeight;
-            } else {
-                height = getResources().getDimensionPixelSize(R.dimen.default_item_height);
-            }
-        } else if (heightMode == MeasureSpec.UNSPECIFIED) {
-            if (mMinWidth != 0) {
-                height = mMinHeight;
-            } else {
-                height = getResources().getDimensionPixelSize(R.dimen.default_item_height);
-            }
-        }
-        return height;
-    }
-
-    private int getRealViewWidth(int widthMode, int widthSize) {
-        int width = 0;
-
-        if (widthMode == MeasureSpec.EXACTLY) {
-            width = widthSize;
-        } else if (widthMode == MeasureSpec.AT_MOST){
-            width = widthSize;
-        } else if (widthMode == MeasureSpec.UNSPECIFIED) {
-            if (mMinWidth != 0) {
-                width = mMinWidth;
-            } else {
-                width = ((ViewGroup) getParent()).getWidth();
-            }
-        }
-        return width;
-    }
-
-    private void initAvatarViews(int mMaxViewCount) {
-        mUserAvatars = new ImageView[mMaxViewCount];
-        final int lastAvatarIndex = mMaxViewCount - 1;
-        for (int i = 0; i < mMaxViewCount; i++) {
-            mUserAvatars[i] = initSingleAvatar();
-            if (i < lastAvatarIndex) {
-                this.addView(mUserAvatars[i]);
-            }
-        }
-        mCounter = initCounter();
-        final ImageView lastAvatar = mUserAvatars[lastAvatarIndex];
-        final FrameLayout frameLayout = new FrameLayout(getContext());
-        frameLayout.setLayoutTransition(new LayoutTransition());
-        final LinearLayout.LayoutParams frameLayoutParams = new LayoutParams(mItemWidth, mItemHeight);
-        frameLayout.setLayoutParams(frameLayoutParams);
-        frameLayout.addView(lastAvatar);
-        frameLayout.addView(mCounter);
-        this.addView(frameLayout);
-    }
-
-    private TextView initCounter() {
-        final TextView textView = new TextView(getContext());
-        final LinearLayout.LayoutParams layoutParams = new LayoutParams(mItemWidth, mItemHeight);
-        textView.setTextAppearance(getContext(), mCounterTextAppearance);
-        textView.setLayoutParams(layoutParams);
-        textView.setBackground(mCounterDrawable);
-        textView.setGravity(Gravity.CENTER);
-        textView.setVisibility(GONE);
-        return textView;
-    }
-
-    private ImageView initSingleAvatar() {
-        final ImageView userAvatar = new ImageView(getContext());
-        final LinearLayout.LayoutParams layoutParams = new LayoutParams(mItemWidth, mItemHeight);
-        layoutParams.setMarginEnd(mActualMargin);
-        userAvatar.setLayoutParams(layoutParams);
-        return userAvatar;
+    public void setTransitionCallback(OnApplyTransformationCallback callback) {
+        mOnApplyTransformationCallback = callback;
     }
 
     public void addItem(final String item) {
@@ -214,6 +145,83 @@ public class ImageMore extends LinearLayout {
         });
     }
 
+    private ImageView initSingleAvatar() {
+        final ImageView userAvatar = new ImageView(getContext());
+        final LinearLayout.LayoutParams layoutParams = new LayoutParams(mItemWidth, mItemHeight);
+        layoutParams.setMarginEnd(mActualMargin);
+        userAvatar.setLayoutParams(layoutParams);
+        return userAvatar;
+    }
+
+    private int getRealViewWidth(int widthMode, int widthSize) {
+        int width = 0;
+
+        if (widthMode == MeasureSpec.EXACTLY) {
+            width = widthSize;
+        } else if (widthMode == MeasureSpec.AT_MOST){
+            width = widthSize;
+        } else if (widthMode == MeasureSpec.UNSPECIFIED) {
+            if (mMinWidth != 0) {
+                width = mMinWidth;
+            } else {
+                width = ((ViewGroup) getParent()).getWidth();
+            }
+        }
+        return width;
+    }
+
+    private int getRealViewHeight(int heightMode, int heightSize) {
+        int height = 0;
+
+        if (heightMode == MeasureSpec.EXACTLY) {
+            height = heightSize;
+        } else if (heightMode == MeasureSpec.AT_MOST){
+            if (mMinHeight != 0) {
+                height = mMinHeight;
+            } else {
+                height = getResources().getDimensionPixelSize(R.dimen.default_item_height);
+            }
+        } else if (heightMode == MeasureSpec.UNSPECIFIED) {
+            if (mMinWidth != 0) {
+                height = mMinHeight;
+            } else {
+                height = getResources().getDimensionPixelSize(R.dimen.default_item_height);
+            }
+        }
+        return height;
+    }
+
+    private void initAvatarViews(int mMaxViewCount) {
+        mUserAvatars = new ImageView[mMaxViewCount];
+        final int lastAvatarIndex = mMaxViewCount - 1;
+        for (int i = 0; i < mMaxViewCount; i++) {
+            mUserAvatars[i] = initSingleAvatar();
+            if (i < lastAvatarIndex) {
+                this.addView(mUserAvatars[i]);
+            }
+        }
+        mCounter = initCounter();
+        final ImageView lastAvatar = mUserAvatars[lastAvatarIndex];
+        final FrameLayout frameLayout = new FrameLayout(getContext());
+        frameLayout.setLayoutTransition(new LayoutTransition());
+        final LinearLayout.LayoutParams frameLayoutParams = new LayoutParams(mItemWidth, mItemHeight);
+        frameLayout.setLayoutParams(frameLayoutParams);
+        frameLayout.addView(lastAvatar);
+        frameLayout.addView(mCounter);
+        this.addView(frameLayout);
+    }
+
+    private TextView initCounter() {
+        final TextView textView = new TextView(getContext());
+        final LinearLayout.LayoutParams layoutParams = new LayoutParams(mItemWidth, mItemHeight);
+        textView.setTextAppearance(getContext(), mCounterTextAppearance);
+        textView.setLayoutParams(layoutParams);
+        textView.setBackground(mCounterDrawable);
+        textView.setGravity(Gravity.CENTER);
+        textView.setVisibility(GONE);
+        return textView;
+    }
+
     private int getDisplayableCounterValue(int totalAddedItems, int maxVisibleItems) {
         return totalAddedItems - maxVisibleItems + 1;
     }
@@ -222,11 +230,18 @@ public class ImageMore extends LinearLayout {
         for (int i = 0; i < activatedViewsCount; i++) {
             final ImageView imageView = mUserAvatars[i];
             imageView.setVisibility(VISIBLE);
-            Picasso.with(getContext())
-                    .load(items.get(i))
-                    .transform(circularTransformation)
+            RequestCreator requestCreator = Picasso.with(getContext())
+                    .load(items.get(i));
+            if (mOnApplyTransformationCallback != null) {
+                requestCreator.transform(mOnApplyTransformationCallback.onApply(i));
+            }
+            requestCreator
                     .into(imageView);
         }
+    }
+
+    private Transformation getTransformation() {
+        return null;
     }
 
     private int getCountOfActivatedViews(int dataSize) {
@@ -278,5 +293,14 @@ public class ImageMore extends LinearLayout {
         final int activatedViewsCount = getCountOfActivatedViews(items.size());
         displayUserAvatarsInActivatedViews(items, activatedViewsCount);
         removeUnnecessaryViews(activatedViewsCount);
+    }
+
+
+
+    public interface OnApplyTransformationCallback {
+
+        @NonNull
+        Transformation onApply(int index);
+
     }
 }
