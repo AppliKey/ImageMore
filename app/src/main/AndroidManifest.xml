@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.shamilov.imagemore.example">
+    package="com.applikeysolutions.imagemore.example">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ImageMoreExampleActivity">
+            android:name="com.applikeysolutions.imagemore.example.ImageMoreExampleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

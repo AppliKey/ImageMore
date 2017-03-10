@@ -1,4 +1,4 @@
-package com.shamilov.imagemore.example;
+package com.applikeysolutions.imagemore.example;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -14,7 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.shamilov.imagemore.ImageMore;
+import com.applikeysolutions.imagemore.ImageMore;
 import com.squareup.picasso.Transformation;
 
 import java.util.Collections;

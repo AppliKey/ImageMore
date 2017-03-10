@@ -1,4 +1,4 @@
-package com.shamilov.imagemore;
+package com.applikeysolutions.imagemore;
 
 import android.animation.LayoutTransition;
 import android.content.Context;
