@@ -1,4 +1,4 @@
-package com.shamilov.imagemore.example;
+package com.applikeysolutions.imagemore.example;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -12,8 +12,9 @@ import android.support.annotation.Nullable;
 import android.support.annotation.Px;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.ImageView;
 
-import com.shamilov.imagemore.ImageMore;
+import com.applikeysolutions.imagemore.ImageMore;
 import com.squareup.picasso.Transformation;
 
 import java.util.Collections;
@@ -27,33 +28,31 @@ public class ImageMoreExampleActivity extends AppCompatActivity {
     int index;
 
     String[] images = new String[]{
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/39/baseball.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/45/running.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/43/tennis.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/41/basketball.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/38/football.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/44/golf.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/42/soccer.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/40/hockey.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/45/running.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/39/baseball.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/43/tennis.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/41/basketball.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/38/football.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/44/golf.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/42/soccer.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/45/running.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/39/baseball.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/43/tennis.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/41/basketball.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/38/football.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/44/golf.png",
-            "https://gosportnow.s3.amazonaws.com/uploads/staging/uploads/sport/source/42/soccer.png"
+            "https://images-na.ssl-images-amazon.com/images/I/7106mGW8G0L._CR0,204,1224,1224_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/51pe8goqQZL._CR0,42,632,632_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/71uIBqKXsNL._CR0,204,1224,1224_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/81M9aIxQANL._CR408,0,1063,1063_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/7106mGW8G0L._CR0,204,1224,1224_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/51pe8goqQZL._CR0,42,632,632_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/71uIBqKXsNL._CR0,204,1224,1224_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/81M9aIxQANL._CR408,0,1063,1063_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/7106mGW8G0L._CR0,204,1224,1224_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/51pe8goqQZL._CR0,42,632,632_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/71uIBqKXsNL._CR0,204,1224,1224_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/81M9aIxQANL._CR408,0,1063,1063_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/7106mGW8G0L._CR0,204,1224,1224_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/51pe8goqQZL._CR0,42,632,632_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/71uIBqKXsNL._CR0,204,1224,1224_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/81M9aIxQANL._CR408,0,1063,1063_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/7106mGW8G0L._CR0,204,1224,1224_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/51pe8goqQZL._CR0,42,632,632_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/71uIBqKXsNL._CR0,204,1224,1224_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/81M9aIxQANL._CR408,0,1063,1063_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/7106mGW8G0L._CR0,204,1224,1224_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/51pe8goqQZL._CR0,42,632,632_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/71uIBqKXsNL._CR0,204,1224,1224_UX128.jpg",
+            "https://images-na.ssl-images-amazon.com/images/I/81M9aIxQANL._CR408,0,1063,1063_UX128.jpg"
     };
-
-    String[] empty = new String[]{};
-
-    int[] array = new int[]{1, 2, 7, 3, 9, 3, 7, 7, 3, 1, 3, 9, 5, 6, 7, 4, 2, 4, 7, 3, 5, 12, 56};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,7 +64,7 @@ public class ImageMoreExampleActivity extends AppCompatActivity {
         }
         imageMore.setTransformationCallback(new ImageMore.OnApplyTransformationCallback() {
 
-            @NonNull @Override public List<? extends Transformation> onApplyTransformations(int index) {
+            @NonNull @Override public List<? extends Transformation> onApplyTransformations(ImageView iv, int index) {
                 return index % 2 == 0
                         ? Collections.singletonList(new PicassoRoundedTransformation(Color.RED, 10))
                         : Collections.singletonList(new PicassoCircularTransformation());
