@@ -118,6 +118,15 @@ public class ImageMore extends LinearLayout {
         });
     }
 
+    public void setItemsCount(int count) {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                notifyChange();
+            }
+        });
+    }
+
     public void setItems(final List<String> items) {
         post(new Runnable() {
             @Override
@@ -217,7 +226,7 @@ public class ImageMore extends LinearLayout {
             RequestCreator requestCreator = Picasso.with(getContext())
                     .load(items.get(i));
             if (mOnApplyTransformationCallback != null) {
-                requestCreator.transform(mOnApplyTransformationCallback.onApplyTransformations(i));
+                requestCreator.transform(mOnApplyTransformationCallback.onApplyTransformations(imageView, i));
             }
             requestCreator.into(imageView);
         }
@@ -260,16 +269,17 @@ public class ImageMore extends LinearLayout {
 
     private void notifyChange() {
         if (maxViewCount <= 0) return;
-        if (imageViews == null) initAvatarViews(maxViewCount);
+//        if (imageViews == null) initAvatarViews(maxViewCount);
         showCounterIfNeeded(isCounterVisible(items.size()), items.size());
         final int activatedViewsCount = getCountOfActivatedViews(items.size());
         displayUserAvatarsInActivatedViews(items, activatedViewsCount);
         removeUnnecessaryViews(activatedViewsCount);
+        invalidate();
     }
 
     public interface OnApplyTransformationCallback {
 
         @NonNull
-        List<? extends Transformation> onApplyTransformations(int index);
+        List<? extends Transformation> onApplyTransformations(ImageView imageView, int position);
     }
 }
