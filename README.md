@@ -31,11 +31,11 @@ There are some attributes to customize:
         <attr name="counterTextAppearance" format="reference"/>
 ```
 
-minItemMargin is a minimum margin between elements.
+**minItemMargin** is a minimum margin between elements.
 
-###counterBackground### is a XML drawable for custom counter background
+**counterBackground** is a XML drawable for custom counter background
 
-counterTextAppearance is a way to customize some of counter attributes(such as color, font, text size etc.)
+**counterTextAppearance** is a way to customize some of counter attributes(such as color, font, text size etc.)
 
 See [sample](sample/src/main/java/com/applikeysolutions/imagemore/example/ImageMoreExampleActivity.java).
 
