@@ -269,7 +269,7 @@ public class ImageMore extends LinearLayout {
 
     private void notifyChange() {
         if (maxViewCount <= 0) return;
-//        if (imageViews == null) initAvatarViews(maxViewCount);
+        if (imageViews == null) initAvatarViews(maxViewCount);
         showCounterIfNeeded(isCounterVisible(items.size()), items.size());
         final int activatedViewsCount = getCountOfActivatedViews(items.size());
         displayUserAvatarsInActivatedViews(items, activatedViewsCount);

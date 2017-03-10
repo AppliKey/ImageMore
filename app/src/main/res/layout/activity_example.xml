@@ -8,6 +8,7 @@
         <com.shamilov.imagemore.ImageMore
             android:id="@+id/imageMore"
             android:layout_width="match_parent"
+            app:counterBackground="@drawable/round_counter"
             android:layout_height="40dp" />
 
 </RelativeLayout>
