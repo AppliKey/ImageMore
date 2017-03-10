@@ -1,6 +1,7 @@
 #ImageMore
 
-A simple UI element for a long list of images which are not put on screen
+A simple UI element for a long list of images which are not put on screen.
+This element is calculating maximum visible childs count, depending on screen size.
 
 <img src="screenshots/ImageMore.PNG" alt="" width="240"/>
 
@@ -22,6 +23,17 @@ Then just add links to images:
         Image imageMore = (ImageMore) findViewById(R.id.imageMore);
         imageMore.addItem("https://images-na.ssl-images-amazon.com/images/I/7106mGW8G0L._CR0,204,1224,1224_UX128.jpg");
 ```
+
+There are some attributes to customize:
+```xml
+        <attr name="minItemMargin" format="dimension" />
+        <attr name="counterBackground" format="reference"/>
+        <attr name="counterTextAppearance" format="reference"/>
+```
+
+minItemMargin is a minimum margin between elements.
+counterBackground is a XML drawable for custom counter background
+counterTextAppearance is a way to customize some of counter attributes(such as color, font, text size etc.)
 
 See [sample](sample/src/main/java/com/applikeysolutions/imagemore/example/ImageMoreExampleActivity.java).
 
