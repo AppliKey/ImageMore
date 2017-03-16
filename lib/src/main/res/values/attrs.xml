@@ -2,7 +2,17 @@
 <resources>
     <declare-styleable name="ImageMore">
         <attr name="minItemMargin" format="dimension" />
-        <attr name="counterBackground" format="reference"/>
-        <attr name="counterTextAppearance" format="reference"/>
+        <attr name="counterBackground" format="reference" />
+        <attr name="counterTextAppearance" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ImageMoreAdapterView">
+        <attr name="minItemSpacing" format="dimension" />
+        <attr name="gravity" format="enum">
+            <enum name="center" value="17" />
+            <enum name="fill" value="119" />
+            <enum name="start" value="8388611" />
+            <enum name="end" value="8388613" />
+        </attr>
     </declare-styleable>
 </resources>
