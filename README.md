@@ -2,7 +2,8 @@
 
 # ImageMore
 
-A simple UI element for a long list of images which are not put on screen
+A simple UI element for a long list of images which are not fit on screen.
+This element is calculating maximum visible childs count, depending on screen size.
 
 <img src="screenshots/demo.gif" alt="" width="240"/>
 
