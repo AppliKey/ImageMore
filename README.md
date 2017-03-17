@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)](https://github.com/foolzoom/ImageMore/blob/migration-to-adapter-view/LICENSE)
+[![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)](https://github.com/applikeysolutions/ImageMore/blob/master/LICENSE)
 
 # ImageMore
 
