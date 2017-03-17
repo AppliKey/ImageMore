@@ -4,4 +4,5 @@
     <dimen name="image_more_height">40dp</dimen>
     <dimen name="view_spacing">16dp</dimen>
     <dimen name="buttons_padding">8dp</dimen>
+    <dimen name="item_spacing">16dp</dimen>
 </resources>

@@ -1,13 +1,7 @@
 package com.applikeysolutions.imagemore.example;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
-import android.support.annotation.Px;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.text.Editable;
@@ -20,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import com.applikeysolutions.imagemore.ImageMoreView;
-import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,95 +114,6 @@ public class ImageMoreExampleActivity extends AppCompatActivity implements View.
             case R.id.end:
                 imageMore.setGravity(Gravity.END);
                 break;
-        }
-    }
-
-    public static class PicassoRoundedTransformation implements com.squareup.picasso.Transformation {
-
-        @ColorInt private final int strokeColor;
-        @Px private final int strokeWidth;
-
-        public PicassoRoundedTransformation(@ColorInt int strokeColor, @Px int strokeWidth) {
-            this.strokeColor = strokeColor;
-            this.strokeWidth = strokeWidth;
-        }
-
-        @Override
-        public Bitmap transform(final Bitmap source) {
-            int size = Math.min(source.getWidth(), source.getHeight());
-
-            int x = (source.getWidth() - size) / 2;
-            int y = (source.getHeight() - size) / 2;
-
-            Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
-            if (squaredBitmap != source) {
-                source.recycle();
-            }
-
-            Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
-
-            final Canvas canvas = new Canvas(bitmap);
-            Paint paint = new Paint();
-            BitmapShader shader = new BitmapShader(squaredBitmap, BitmapShader.TileMode.CLAMP,
-                    BitmapShader.TileMode.CLAMP);
-            paint.setShader(shader);
-            paint.setAntiAlias(true);
-
-            float r = size / 2f;
-            canvas.drawCircle(r, r, r, paint);
-
-            final Paint strokePaint = new Paint();
-            strokePaint.setColor(strokeColor);
-            strokePaint.setStyle(Paint.Style.STROKE);
-            strokePaint.setAntiAlias(true);
-            strokePaint.setStrokeWidth(strokeWidth);
-            final float strokeRadius = r - strokeWidth / 2;
-            canvas.drawCircle(r, r, strokeRadius, strokePaint);
-
-            squaredBitmap.recycle();
-
-            return bitmap;
-        }
-
-        @Override
-        public String key() {
-            return "stroked";
-        }
-    }
-
-    public static class PicassoCircularTransformation implements Transformation {
-
-        @Override
-        public Bitmap transform(Bitmap source) {
-            final int size = Math.min(source.getWidth(), source.getHeight());
-
-            final int x = (source.getWidth() - size) / 2;
-            final int y = (source.getHeight() - size) / 2;
-
-            final Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
-            if (squaredBitmap != source) {
-                source.recycle();
-            }
-
-            final Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
-
-            final Canvas canvas = new Canvas(bitmap);
-            final Paint paint = new Paint();
-            final BitmapShader shader = new BitmapShader(squaredBitmap,
-                    BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
-            paint.setShader(shader);
-            paint.setAntiAlias(true);
-
-            final float r = size / 2f;
-            canvas.drawCircle(r, r, r, paint);
-
-            squaredBitmap.recycle();
-            return bitmap;
-        }
-
-        @Override
-        public String key() {
-            return "circle";
         }
     }
 

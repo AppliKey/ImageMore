@@ -44,7 +44,7 @@ public class Adapter extends BaseAdapter implements ImageMoreAdapter {
         final ImageView view = (ImageView) root.findViewById(R.id.image);
         Picasso.with(parent.getContext())
                 .load(items.get(position).getUrl())
-                .transform(new ImageMoreExampleActivity.PicassoCircularTransformation())
+                .transform(new PicassoCircularTransformation())
                 .into(view);
         return root;
     }
