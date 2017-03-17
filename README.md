@@ -1,41 +1,45 @@
-#ImageMore
+[![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)](https://github.com/applikeysolutions/ImageMore/blob/master/LICENSE)
+
+# ImageMore
 
 A simple UI element for a long list of images which are not fit on screen.
 This element is calculating maximum visible childs count, depending on screen size.
 
-<img src="screenshots/ImageMore.PNG" alt="" width="240"/>
+<img src="screenshots/demo.gif" alt="" width="240"/>
 
 ## Usage
 
 Declare in your layout:
 
 ```xml
-        <com.applikeysolutions.imagemore.ImageMore
-            android:id="@+id/imageMore"
-            android:layout_width="match_parent"
-            app:counterBackground="@drawable/round_counter"
-            android:layout_height="40dp" />
+    <com.applikeysolutions.imagemore.ImageMoreView
+        android:id="@+id/imageMore"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        app:gravity="center"
+        app:minItemSpacing="16dp" />
 ```
 
-Then just add links to images:
+Then just add your items to adapter:
 
 ```java
-        Image imageMore = (ImageMore) findViewById(R.id.imageMore);
-        imageMore.addItem("https://images-na.ssl-images-amazon.com/images/I/7106mGW8G0L._CR0,204,1224,1224_UX128.jpg");
+        ImageMoreView<Adapter> imageMore = (ImageMoreView<Adapter>) findViewById(R.id.imageMore);
+        Adapter adapter = new Adapter();
+        adapter.update(items);
+        imageMore.setAdapter(adapter);
+```
+If you want to show MoreIndicator, your adapter must implement interface ImageMoreAdapter.
+
+```java
+        class Adapter extends BaseAdapter implements ImageMoreAdapter
 ```
 
-There are some attributes to customize:
-```xml
-        <attr name="minItemMargin" format="dimension" />
-        <attr name="counterBackground" format="reference"/>
-        <attr name="counterTextAppearance" format="reference"/>
+Also you can customize view programmatically:
+
+```java
+        imageMore.setMinItemSpacing(getResources().getDimensionPixelSize(R.dimen.item_spacing));
+        imageMore.setGravity(Gravity.CENTER);
 ```
-
-**minItemMargin** is a minimum margin between elements.
-
-**counterBackground** is a XML drawable for custom counter background
-
-**counterTextAppearance** is a way to customize some of counter attributes(such as color, font, text size etc.)
 
 See [sample](sample/src/main/java/com/applikeysolutions/imagemore/example/ImageMoreExampleActivity.java).
 
