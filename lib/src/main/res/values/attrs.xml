@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ImageMore">
-        <attr name="minItemMargin" format="dimension" />
-        <attr name="counterBackground" format="reference" />
-        <attr name="counterTextAppearance" format="reference" />
-    </declare-styleable>
-
     <declare-styleable name="ImageMoreView">
         <attr name="minItemSpacing" format="dimension" />
         <attr name="gravity" format="enum">
