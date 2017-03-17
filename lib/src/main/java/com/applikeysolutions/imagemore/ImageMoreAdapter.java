@@ -5,6 +5,6 @@ import android.view.ViewGroup;
 
 public interface ImageMoreAdapter {
 
-    View getMoView(int moCount, View convertView, ViewGroup parent);
+    View getMoreView(int moreItemsCount, View convertView, ViewGroup parent);
 
 }

@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-public class ImageMoreAdapterView<T extends BaseAdapter> extends AdapterView<T> {
+public class ImageMoreView<T extends BaseAdapter> extends AdapterView<T> {
 
     private static final String TAG = "ImageMoreAdapterView";
 
@@ -29,32 +29,32 @@ public class ImageMoreAdapterView<T extends BaseAdapter> extends AdapterView<T> 
         }
     };
 
-    public ImageMoreAdapterView(Context context) {
+    public ImageMoreView(Context context) {
         super(context);
     }
 
-    public ImageMoreAdapterView(Context context, AttributeSet attrs) {
+    public ImageMoreView(Context context, AttributeSet attrs) {
         super(context, attrs);
         obtainAttr(attrs, 0, 0);
     }
 
-    public ImageMoreAdapterView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ImageMoreView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         obtainAttr(attrs, defStyleAttr, 0);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public ImageMoreAdapterView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ImageMoreView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         obtainAttr(attrs, defStyleAttr, defStyleRes);
     }
 
     private void obtainAttr(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         final TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(attrs,
-                R.styleable.ImageMoreAdapterView, defStyleAttr, defStyleRes);
+                R.styleable.ImageMoreView, defStyleAttr, defStyleRes);
         try {
-            this.minItemSpacing = typedArray.getDimensionPixelSize(R.styleable.ImageMoreAdapterView_minItemSpacing, 0);
-            this.gravity = typedArray.getInteger(R.styleable.ImageMoreAdapterView_gravity, Gravity.FILL);
+            this.minItemSpacing = typedArray.getDimensionPixelSize(R.styleable.ImageMoreView_minItemSpacing, 0);
+            this.gravity = typedArray.getInteger(R.styleable.ImageMoreView_gravity, Gravity.FILL);
         } finally {
             typedArray.recycle();
         }
@@ -108,7 +108,7 @@ public class ImageMoreAdapterView<T extends BaseAdapter> extends AdapterView<T> 
             if (adapter instanceof ImageMoreAdapter && newRightChild != null
                     && (bottomEdge + measureWidth + getPaddingEnd()) >= (getWidth() - getPaddingEnd())) {
                 removeViewInLayout(newRightChild);
-                newRightChild = ((ImageMoreAdapter) adapter).getMoView(adapter.getCount() - getChildCount(), null, this);
+                newRightChild = ((ImageMoreAdapter) adapter).getMoreView(adapter.getCount() - getChildCount(), null, this);
                 addAndMeasureChild(newRightChild);
                 isMoreShowed = true;
             } else {

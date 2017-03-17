@@ -37,9 +37,11 @@ public class Adapter extends BaseAdapter implements ImageMoreAdapter {
     }
 
     @Override
+    @SuppressWarnings("ViewHolder")
     public View getView(int position, View convertView, ViewGroup parent) {
-        final View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_item, parent, false);
-        ImageView view = (ImageView) root.findViewById(R.id.image);
+        final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        final View root = inflater.inflate(R.layout.view_item, parent, false);
+        final ImageView view = (ImageView) root.findViewById(R.id.image);
         Picasso.with(parent.getContext())
                 .load(items.get(position).getUrl())
                 .transform(new ImageMoreExampleActivity.PicassoCircularTransformation())
@@ -59,16 +61,19 @@ public class Adapter extends BaseAdapter implements ImageMoreAdapter {
     }
 
     public void remove(int position) {
+        if (this.items.size() <= position) {
+            return;
+        }
         this.items.remove(position);
         notifyDataSetChanged();
     }
 
     @Override
-    public View getMoView(int moCount, View convertView, ViewGroup parent) {
+    public View getMoreView(int moreItemsCount, View convertView, ViewGroup parent) {
         final View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_counter, parent, false);
-        TextView view = (TextView) root.findViewById(R.id.text);
+        final TextView view = (TextView) root.findViewById(R.id.text);
         view.setBackground(ContextCompat.getDrawable(parent.getContext(), R.drawable.round_counter));
-        view.setText(String.valueOf(moCount));
+        view.setText(String.valueOf(moreItemsCount));
         return root;
     }
 }

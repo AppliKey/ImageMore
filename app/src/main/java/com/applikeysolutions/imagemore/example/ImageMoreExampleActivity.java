@@ -9,14 +9,17 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.annotation.Px;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
-import com.applikeysolutions.imagemore.ImageMoreAdapterView;
+import com.applikeysolutions.imagemore.ImageMoreView;
 import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
@@ -25,7 +28,7 @@ import java.util.Random;
 
 public class ImageMoreExampleActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageMoreAdapterView<Adapter> imageMore;
+    private ImageMoreView<Adapter> imageMore;
     private Adapter adapter;
     private Random random;
     String[] images = new String[] {
@@ -49,7 +52,7 @@ public class ImageMoreExampleActivity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_example);
         random = new Random(images.length);
-        imageMore = (ImageMoreAdapterView<Adapter>) findViewById(R.id.imageMore);
+        imageMore = (ImageMoreView<Adapter>) findViewById(R.id.imageMore);
 
         final List<Item> items = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
@@ -61,10 +64,6 @@ public class ImageMoreExampleActivity extends AppCompatActivity implements View.
         imageMore.setAdapter(adapter);
         findViewById(R.id.add).setOnClickListener(this);
         findViewById(R.id.remove).setOnClickListener(this);
-        findViewById(R.id.center).setOnClickListener(this);
-        findViewById(R.id.start).setOnClickListener(this);
-        findViewById(R.id.end).setOnClickListener(this);
-        findViewById(R.id.fill).setOnClickListener(this);
         EditText spacing = (EditText) findViewById(R.id.spacing);
         spacing.addTextChangedListener(new TextWatcher() {
             @Override
@@ -83,6 +82,20 @@ public class ImageMoreExampleActivity extends AppCompatActivity implements View.
                 imageMore.setMinItemSpacing(
                         (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, spacing, getResources()
                                 .getDisplayMetrics()));
+            }
+        });
+        AppCompatSpinner gravity = (AppCompatSpinner) findViewById(R.id.gravity);
+        gravity.setAdapter(new ArrayAdapter<>(this, android.R.layout
+                .simple_spinner_dropdown_item, com.applikeysolutions.imagemore.example.Gravity.values()));
+        gravity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                imageMore.setGravity(com.applikeysolutions.imagemore.example.Gravity.values()[position].getGravity());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }

@@ -6,7 +6,7 @@
         <attr name="counterTextAppearance" format="reference" />
     </declare-styleable>
 
-    <declare-styleable name="ImageMoreAdapterView">
+    <declare-styleable name="ImageMoreView">
         <attr name="minItemSpacing" format="dimension" />
         <attr name="gravity" format="enum">
             <enum name="center" value="17" />
