@@ -1,3 +1,5 @@
+[![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)](https://github.com/foolzoom/ImageMore/blob/migration-to-adapter-view/LICENSE)
+
 # ImageMore
 
 A simple UI element for a long list of images which are not put on screen
