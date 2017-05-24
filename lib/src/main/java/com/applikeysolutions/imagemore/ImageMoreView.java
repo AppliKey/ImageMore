@@ -53,8 +53,8 @@ public class ImageMoreView<T extends BaseAdapter> extends AdapterView<T> {
         final TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(attrs,
                 R.styleable.ImageMoreView, defStyleAttr, defStyleRes);
         try {
-            this.minItemSpacing = typedArray.getDimensionPixelSize(R.styleable.ImageMoreView_minItemSpacing, 0);
-            this.gravity = typedArray.getInteger(R.styleable.ImageMoreView_gravity, Gravity.FILL);
+            this.minItemSpacing = typedArray.getDimensionPixelSize(R.styleable.ImageMoreView_imv_minItemSpacing, 0);
+            this.gravity = typedArray.getInteger(R.styleable.ImageMoreView_imv_gravity, Gravity.FILL);
         } finally {
             typedArray.recycle();
         }

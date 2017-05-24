@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ImageMoreView">
-        <attr name="minItemSpacing" format="dimension" />
-        <attr name="gravity" format="enum">
+        <attr name="imv_minItemSpacing" format="dimension" />
+        <attr name="imv_gravity" format="enum">
             <enum name="center" value="17" />
             <enum name="fill" value="119" />
             <enum name="start" value="8388611" />

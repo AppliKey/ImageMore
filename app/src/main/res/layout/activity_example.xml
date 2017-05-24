@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/activity_margin">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/activity_margin">
 
     <com.applikeysolutions.imagemore.ImageMoreView
         android:id="@+id/imageMore"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/image_more_height" />
+        android:layout_height="@dimen/image_more_height"
+        app:imv_gravity="end"/>
 
     <EditText
         android:id="@+id/spacing"
@@ -20,7 +21,7 @@
         android:layout_marginTop="@dimen/view_spacing"
         android:digits="0123456789"
         android:hint="@string/spacing"
-        android:inputType="number" />
+        android:inputType="number"/>
 
     <ImageView
         android:id="@+id/add"
@@ -30,7 +31,7 @@
         android:layout_marginEnd="@dimen/view_spacing"
         android:background="?selectableItemBackgroundBorderless"
         android:padding="@dimen/buttons_padding"
-        android:src="@drawable/ic_add" />
+        android:src="@drawable/ic_add"/>
 
     <ImageView
         android:id="@+id/remove"
@@ -41,7 +42,7 @@
         android:layout_toEndOf="@id/add"
         android:background="?selectableItemBackgroundBorderless"
         android:padding="@dimen/buttons_padding"
-        android:src="@drawable/ic_remove" />
+        android:src="@drawable/ic_remove"/>
 
     <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/gravity"
@@ -50,6 +51,6 @@
         android:layout_alignBottom="@id/remove"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@id/remove"
-        android:layout_below="@id/spacing" />
+        android:layout_below="@id/spacing"/>
 
 </RelativeLayout>
