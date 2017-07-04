@@ -72,14 +72,20 @@ public class ImageMoreView<T extends BaseAdapter> extends AdapterView<T> {
         notifyViewChanged();
     }
 
+    /**
+     * Override to add logic
+     *
+     * @param position selected position
+     */
     @Override
-    public void setSelection(int position) {
-        throw new UnsupportedOperationException("Not supported");
-    }
+    public void setSelection(int position) {}
 
+    /**
+     * Override to add logic
+     */
     @Override
     public View getSelectedView() {
-        throw new UnsupportedOperationException("Not supported");
+        return null;
     }
 
     @Override
@@ -108,7 +114,8 @@ public class ImageMoreView<T extends BaseAdapter> extends AdapterView<T> {
             if (adapter instanceof ImageMoreAdapter && newRightChild != null
                     && (bottomEdge + measureWidth + getPaddingEnd()) >= (getWidth() - getPaddingEnd())) {
                 removeViewInLayout(newRightChild);
-                newRightChild = ((ImageMoreAdapter) adapter).getMoreView(adapter.getCount() - getChildCount(), null, this);
+                newRightChild = ((ImageMoreAdapter) adapter)
+                        .getMoreView(adapter.getCount() - getChildCount(), null, this);
                 addAndMeasureChild(newRightChild);
                 isMoreShowed = true;
             } else {
